@@ -34,11 +34,11 @@ func CreateTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 		if err != nil {
 			fmt.Println("failed to create url")
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("failed to create urlt"))
+			w.Write([]byte("failed to create url"))
 			return
 		}
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Success"))
+		w.Write([]byte(fmt.Sprintf("Success, URL -> %s", urlEntry.EncodedURL)))
 	}
 }
 func GetTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
@@ -48,9 +48,9 @@ func GetTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 
 		urlMap, err := deps.TinyUrlStore.Get(tinyUrl)
 		if err != nil {
-			fmt.Println("failed to create url")
+			fmt.Println("failed to get url")
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("failed to create urlt"))
+			w.Write([]byte("failed to get url"))
 			return
 		}
 		w.WriteHeader(http.StatusOK)
@@ -65,9 +65,9 @@ func DeleteTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 
 		err := deps.TinyUrlStore.Delete(utils.URL{EncodedURL: tinyUrl})
 		if err != nil {
-			fmt.Println("failed to create url")
+			fmt.Println("failed to delete url")
 			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte("failed to create urlt"))
+			w.Write([]byte("failed to delete url"))
 			return
 		}
 		w.WriteHeader(http.StatusOK)

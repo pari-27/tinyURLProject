@@ -35,7 +35,6 @@ func (tu *TinyUrl) Create(u utils.URL) (err error) {
 		fmt.Println("key added")
 		return
 	}
-	fmt.Println("key not added")
 
 	return fmt.Errorf("key already exists")
 }
