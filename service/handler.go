@@ -17,6 +17,7 @@ func CreateTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 			fmt.Println("failed to get body")
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte("failed to get request"))
+			return
 		}
 		log.Println(string(body))
 		var urlM map[string]string
@@ -25,6 +26,7 @@ func CreateTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 			fmt.Println("failed to parse body")
 			w.WriteHeader(http.StatusBadRequest)
 			w.Write([]byte("failed to parse request"))
+			return
 		}
 
 		urlEntry := utils.GetTinyUrl(urlM["url"])
@@ -33,6 +35,7 @@ func CreateTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 			fmt.Println("failed to create url")
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to create urlt"))
+			return
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("Success"))
@@ -48,6 +51,7 @@ func GetTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 			fmt.Println("failed to create url")
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to create urlt"))
+			return
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte(fmt.Sprintf("%v", urlMap)))
@@ -64,6 +68,7 @@ func DeleteTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 			fmt.Println("failed to create url")
 			w.WriteHeader(http.StatusInternalServerError)
 			w.Write([]byte("failed to create urlt"))
+			return
 		}
 		w.WriteHeader(http.StatusOK)
 		w.Write([]byte("delete succesfull"))

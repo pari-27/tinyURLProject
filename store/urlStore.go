@@ -32,7 +32,10 @@ func (tu *TinyUrl) Create(u utils.URL) (err error) {
 
 	if _, ok := urlDBStore[u.EncodedURL]; !ok {
 		urlDBStore[u.EncodedURL] = u.LongURL
+		fmt.Println("key added")
 	}
+	fmt.Println("key not added")
+
 	return fmt.Errorf("key already exists")
 }
 func (tu *TinyUrl) Delete(u utils.URL) (err error) {
