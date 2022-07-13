@@ -13,3 +13,8 @@ type ErrorObj struct {
 	Code    int    `json:"code,omitempty"`
 	Message string `json:"message,omitempty"`
 }
+
+type URL struct {
+	LongURL    string `json:"long_url"`
+	EncodedURL string `json:"encoded_url"`
+}
