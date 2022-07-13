@@ -19,6 +19,7 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/url", service.CreateTinyURL(deps)).Methods(http.MethodPost)
 	router.HandleFunc("/url", service.GetTinyURL(deps)).Methods(http.MethodPost)
+	router.HandleFunc("/url", service.DeleteTinyURL(deps)).Methods(http.MethodPost)
 	srv := &http.Server{
 		Handler: router,
 		Addr:    "127.0.0.1:8000",

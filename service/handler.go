@@ -10,7 +10,7 @@ import (
 	"net/http"
 )
 
-func CraeteTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
+func CreateTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
@@ -48,6 +48,21 @@ func GetTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 			w.Write([]byte("failed to create urlt"))
 		}
 		w.WriteHeader(http.StatusOK)
-		w.Write([]byte("Success"))
+		w.Write([]byte(fmt.Sprintf("%v", urlMap)))
+	}
+}
+func DeleteTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		tinyUrl := mux.Vars(r)["url"]
+		log.Println(string(tinyUrl))
+
+		err := deps.TinyUrlStore.Delete(utils.URL{EncodedURL: tinyUrl})
+		if err != nil {
+			fmt.Println("failed to create url")
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("failed to create urlt"))
+		}
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("delete succesfull"))
 	}
 }
