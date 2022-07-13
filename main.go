@@ -13,7 +13,6 @@ func main() {
 	db, err := store.Init()
 	if err != nil {
 		fmt.Println("Failed to setup database connection")
-		return
 	}
 	deps := service.Init(db)
 	router := mux.NewRouter()

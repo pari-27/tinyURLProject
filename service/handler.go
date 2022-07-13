@@ -14,7 +14,9 @@ func CreateTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
-			panic(err)
+			fmt.Println("failed to get body")
+			w.WriteHeader(http.StatusBadRequest)
+			w.Write([]byte("failed to get request"))
 		}
 		log.Println(string(body))
 		var urlM map[string]string
@@ -51,6 +53,7 @@ func GetTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 		w.Write([]byte(fmt.Sprintf("%v", urlMap)))
 	}
 }
+
 func DeleteTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		tinyUrl := mux.Vars(r)["url"]
