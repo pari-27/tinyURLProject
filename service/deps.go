@@ -1,8 +1,8 @@
 package service
 
 import (
-	"../store"
 	"database/sql"
+	"github.com/pari-27/tinyURLProject/store"
 )
 
 type Dependencies struct {

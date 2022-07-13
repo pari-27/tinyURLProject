@@ -1,15 +1,16 @@
 package service
 
 import (
-	"../utils"
 	"encoding/json"
 	"fmt"
+	"github.com/gorilla/mux"
+	"github.com/pari-27/tinyURLProject/utils"
 	"io/ioutil"
 	"log"
 	"net/http"
 )
 
-func GetTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
+func CraeteTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 	return func(w http.ResponseWriter, r *http.Request) {
 		body, err := ioutil.ReadAll(r.Body)
 		if err != nil {
@@ -26,6 +27,21 @@ func GetTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
 
 		urlEntry := utils.GetTinyUrl(urlM["url"])
 		err = deps.TinyUrlStore.Create(urlEntry)
+		if err != nil {
+			fmt.Println("failed to create url")
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte("failed to create urlt"))
+		}
+		w.WriteHeader(http.StatusOK)
+		w.Write([]byte("Success"))
+	}
+}
+func GetTinyURL(deps Dependencies) func(http.ResponseWriter, *http.Request) {
+	return func(w http.ResponseWriter, r *http.Request) {
+		tinyUrl := mux.Vars(r)["url"]
+		log.Println(string(tinyUrl))
+
+		urlMap, err := deps.TinyUrlStore.Get(tinyUrl)
 		if err != nil {
 			fmt.Println("failed to create url")
 			w.WriteHeader(http.StatusInternalServerError)

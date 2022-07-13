@@ -3,8 +3,8 @@ package main
 import (
 	"fmt"
 	"github.com/gorilla/mux"
-	"github.com/tinyURLProject/service"
-	"github.com/tinyURLProject/store"
+	"github.com/pari-27/tinyURLProject/service"
+	"github.com/pari-27/tinyURLProject/store"
 	"log"
 	"net/http"
 )
@@ -17,6 +17,7 @@ func main() {
 	}
 	deps := service.Init(db)
 	router := mux.NewRouter()
+	router.HandleFunc("/url", service.CreateTinyURL(deps)).Methods(http.MethodPost)
 	router.HandleFunc("/url", service.GetTinyURL(deps)).Methods(http.MethodPost)
 	srv := &http.Server{
 		Handler: router,

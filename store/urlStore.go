@@ -1,14 +1,14 @@
 package store
 
 import (
-	"../utils"
 	"database/sql"
 	"fmt"
+	"github.com/pari-27/tinyURLProject/utils"
 )
 
 type Store interface {
 	Create(utils.URL) (err error)
-	Get() (utils.URL, error)
+	Get(string) (utils.URL, error)
 	Delete(utils.URL) (err error)
 }
 
@@ -38,9 +38,9 @@ func (tu *TinyUrl) Delete(u utils.URL) (err error) {
 	return
 }
 
-func (tu *TinyUrl) Get(u utils.URL) (err error) {
+func (tu *TinyUrl) Get(string) (u utils.URL, err error) {
 	query := fmt.Sprintf("SELECT * FROM urls WHERE encodedURL = %s", u.EncodedURL)
-	err = tu.DB.QueryRow(query).Scan(&u)
+	err = tu.DB.QueryRow(query).Scan(&u.LongURL)
 	if err != nil {
 		return
 	}
