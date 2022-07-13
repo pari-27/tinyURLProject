@@ -17,8 +17,8 @@ func main() {
 	deps := service.Init(db)
 	router := mux.NewRouter()
 	router.HandleFunc("/url", service.CreateTinyURL(deps)).Methods(http.MethodPost)
-	router.HandleFunc("/url", service.GetTinyURL(deps)).Methods(http.Method)
-	router.HandleFunc("/url", service.DeleteTinyURL(deps)).Methods(http.MethodPost)
+	router.HandleFunc("/url", service.GetTinyURL(deps)).Methods(http.MethodGet)
+	router.HandleFunc("/url", service.DeleteTinyURL(deps)).Methods(http.MethodDelete)
 
 	log.Fatal(http.ListenAndServe(":8080", router))
 
